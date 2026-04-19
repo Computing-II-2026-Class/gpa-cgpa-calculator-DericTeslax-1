@@ -6,7 +6,7 @@ Registration Number: 25/U/BIE/01399/PE
 #include <stdio.h>
 
 int main(void) {
-    /* Declare variables here */
+        /* Declare variables here */
     const char *sem1_codes[] = {"TEMB1101","TEMB1102","TEMB1103","TEMB1104",
                                 "TEMB1105","TEMB1106","TEMB1107","TEMB1108"};
     const int sem1_credits[] = {4,3,3,3,3,3,2,3};
@@ -34,17 +34,17 @@ int main(void) {
         }
     }
 
-    /* Determine grades and grade points + Compute Semester I GPA */
+    /* Compute Semester I */
     double sem1_weighted = 0.0;
-    int sem1_total_credits = 0;
+    int sem1_credits_sum = 0;
 
+    // Print header (exactly as shown in assignment? No specification, but include)
     printf("Course Code Score Grade Grade Pt Credit Weighted\n");
 
     for (i = 0; i < 8; i++) {
         int score = scores[i];
         double gp;
         char grade;
-
         switch (score / 10) {
             case 10: case 9: case 8: gp = 5.0; grade = 'A'; break;
             case 7: gp = 4.0; grade = 'B'; break;
@@ -52,21 +52,19 @@ int main(void) {
             case 5: gp = 2.0; grade = 'D'; break;
             default: gp = 0.0; grade = 'F'; break;
         }
-
         double weighted = gp * sem1_credits[i];
         sem1_weighted += weighted;
-        sem1_total_credits += sem1_credits[i];
-
+        sem1_credits_sum += sem1_credits[i];
         printf("%s %d %c %.1f %d %.1f\n",
                sem1_codes[i], score, grade, gp, sem1_credits[i], weighted);
     }
 
-    double sem1_gpa = sem1_weighted / sem1_total_credits;
+    double sem1_gpa = sem1_weighted / sem1_credits_sum;
     printf("Semester I GPA: %.2f\n", sem1_gpa);
 
-    /* Compute Semester II GPA */
+    /* Compute Semester II */
     double sem2_weighted = 0.0;
-    int sem2_total_credits = 0;
+    int sem2_credits_sum = 0;
 
     printf("Course Code Score Grade Grade Pt Credit Weighted\n");
 
@@ -74,7 +72,6 @@ int main(void) {
         int score = scores[8 + i];
         double gp;
         char grade;
-
         switch (score / 10) {
             case 10: case 9: case 8: gp = 5.0; grade = 'A'; break;
             case 7: gp = 4.0; grade = 'B'; break;
@@ -82,30 +79,26 @@ int main(void) {
             case 5: gp = 2.0; grade = 'D'; break;
             default: gp = 0.0; grade = 'F'; break;
         }
-
         double weighted = gp * sem2_credits[i];
         sem2_weighted += weighted;
-        sem2_total_credits += sem2_credits[i];
-
+        sem2_credits_sum += sem2_credits[i];
         printf("%s %d %c %.1f %d %.1f\n",
                sem2_codes[i], score, grade, gp, sem2_credits[i], weighted);
     }
 
-    double sem2_gpa = sem2_weighted / sem2_total_credits;
+    double sem2_gpa = sem2_weighted / sem2_credits_sum;
     printf("Semester II GPA: %.2f\n", sem2_gpa);
 
-    /* Compute CGPA */
-    double cgpa = (sem1_weighted + sem2_weighted) / (sem1_total_credits + sem2_total_credits);
+    /* CGPA */
+    double cgpa = (sem1_weighted + sem2_weighted) / (sem1_credits_sum + sem2_credits_sum);
     printf("CGPA: %.2f\n", cgpa);
 
-    /* Determine classification */
+    /* Classification */
     if (cgpa >= 4.40) printf("Classification: First Class\n");
     else if (cgpa >= 3.60) printf("Classification: Second Class Upper\n");
     else if (cgpa >= 2.80) printf("Classification: Second Class Lower\n");
     else if (cgpa >= 2.00) printf("Classification: Pass\n");
     else printf("Classification: Fail\n");
-
-    /* Display full academic report */
    
     return 0;
 }
