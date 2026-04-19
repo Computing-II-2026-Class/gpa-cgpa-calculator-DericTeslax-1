@@ -1,0 +1,135 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Student Identification Present
+      id: student-identification-present
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Student Identification Present
+        setup-command: ''
+        command: grep -i "Name:" main.c && grep -i "Registration Number:" main.c
+        timeout: 10
+        max-score: 10
+    - name: Compilation
+      id: compilation
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Compilation
+        setup-command: ''
+        command: gcc main.c -o main
+        timeout: 10
+        max-score: 10
+    - name: Invalid Input Handling
+      id: invalid-input-handling
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Invalid Input Handling
+        setup-command: gcc main.c -o main
+        command: "./main"
+        input: |-
+          78
+          65
+          81
+          74
+          69
+          85
+          58
+          101
+          72
+          66
+          80
+          61
+          55
+          77
+          49
+          88
+        expected-output: Invalid score entered
+        comparison-method: contains
+        timeout: 10
+        max-score: 10
+    - name: Test Case 1
+      id: test-case-1
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Test Case 1
+        setup-command: gcc main.c -o main
+        command: "./main"
+        input: |-
+          78
+          65
+          81
+          74
+          69
+          85
+          58
+          90
+          72
+          66
+          80
+          61
+          55
+          77
+          49
+          88
+        expected-output: |-
+          Semester I GPA: 3.96
+          Semester II GPA: 3.28
+          CGPA: 3.61
+          Classification: Second Class Upper
+        comparison-method: contains
+        timeout: 10
+        max-score: 35
+    - name: Test Case 2
+      id: test-case-2
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Test Case 2
+        setup-command: gcc main.c -o main
+        command: "./main"
+        input: |-
+          45
+          52
+          67
+          71
+          83
+          39
+          58
+          62
+          49
+          51
+          68
+          73
+          81
+          59
+          64
+          77
+        expected-output: |-
+          Semester I GPA: 2.29
+          Semester II GPA: 2.76
+          CGPA: 2.53
+          Classification: Pass
+        comparison-method: contains
+        timeout: 10
+        max-score: 35
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        STUDENT-IDENTIFICATION-PRESENT_RESULTS: "${{steps.student-identification-present.outputs.result}}"
+        COMPILATION_RESULTS: "${{steps.compilation.outputs.result}}"
+        INVALID-INPUT-HANDLING_RESULTS: "${{steps.invalid-input-handling.outputs.result}}"
+        TEST-CASE-1_RESULTS: "${{steps.test-case-1.outputs.result}}"
+        TEST-CASE-2_RESULTS: "${{steps.test-case-2.outputs.result}}"
+      with:
+        runners: student-identification-present,compilation,invalid-input-handling,test-case-1,test-case-2
