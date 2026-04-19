@@ -18,7 +18,7 @@ int main(void) {
     int scores[16];
     int i;
 
-    /* Read 16 scores (no prompts) */
+    /* Read 16 scores */
     for (i = 0; i < 16; i++) {
         if (scanf("%d", &scores[i]) != 1) {
             printf("Invalid score entered\n");
@@ -26,7 +26,7 @@ int main(void) {
         }
     }
 
-    /* Validate input range */
+    /* Validate input */
     for (i = 0; i < 16; i++) {
         if (scores[i] < 0 || scores[i] > 100) {
             printf("Invalid score entered\n");
@@ -38,7 +38,7 @@ int main(void) {
     double sem1_weighted = 0.0;
     int sem1_total_credits = 0;
 
-    printf("Course Code  Score  Grade  Grade Pt  Credit  Weighted\n");
+    printf("Course Code Score Grade Grade Pt Credit Weighted\n");
 
     for (i = 0; i < 8; i++) {
         int score = scores[i];
@@ -57,18 +57,18 @@ int main(void) {
         sem1_weighted += weighted;
         sem1_total_credits += sem1_credits[i];
 
-        printf("%-11s %5d     %c      %.1f      %2d      %6.1f\n",
+        printf("%s %d %c %.1f %d %.1f\n",
                sem1_codes[i], score, grade, gp, sem1_credits[i], weighted);
     }
 
     double sem1_gpa = sem1_weighted / sem1_total_credits;
-    printf("\nSemester I GPA: %.2f\n", sem1_gpa);
+    printf("Semester I GPA: %.2f\n", sem1_gpa);
 
     /* Compute Semester II GPA */
     double sem2_weighted = 0.0;
     int sem2_total_credits = 0;
 
-    printf("\nCourse Code  Score  Grade  Grade Pt  Credit  Weighted\n");
+    printf("Course Code Score Grade Grade Pt Credit Weighted\n");
 
     for (i = 0; i < 8; i++) {
         int score = scores[8 + i];
@@ -87,16 +87,16 @@ int main(void) {
         sem2_weighted += weighted;
         sem2_total_credits += sem2_credits[i];
 
-        printf("%-11s %5d     %c      %.1f      %2d      %6.1f\n",
+        printf("%s %d %c %.1f %d %.1f\n",
                sem2_codes[i], score, grade, gp, sem2_credits[i], weighted);
     }
 
     double sem2_gpa = sem2_weighted / sem2_total_credits;
-    printf("\nSemester II GPA: %.2f\n", sem2_gpa);
+    printf("Semester II GPA: %.2f\n", sem2_gpa);
 
     /* Compute CGPA */
     double cgpa = (sem1_weighted + sem2_weighted) / (sem1_total_credits + sem2_total_credits);
-    printf("\nCGPA: %.2f\n", cgpa);
+    printf("CGPA: %.2f\n", cgpa);
 
     /* Determine classification */
     if (cgpa >= 4.40) printf("Classification: First Class\n");
@@ -106,6 +106,6 @@ int main(void) {
     else printf("Classification: Fail\n");
 
     /* Display full academic report */
-
+   
     return 0;
 }
