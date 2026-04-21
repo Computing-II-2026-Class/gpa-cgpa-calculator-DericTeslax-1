@@ -6,7 +6,7 @@ Registration Number: 25/U/BIE/01399/PE
 #include <stdio.h>
 
 int main(void) {
-   /* Declare variables here */
+    /* Declare variables here */
     int scores[16];
     int credits_sem1[8] = {4, 3, 3, 3, 3, 3, 2, 3};
     int credits_sem2[8] = {4, 3, 3, 3, 3, 3, 3, 3};
@@ -27,22 +27,24 @@ int main(void) {
     for (i = 0; i < 8; i++) {
         printf("%s: ", codes_sem1[i]);
         scanf("%d", &scores[i]);
+        /* Validate input immediately */
+        if (scores[i] < 0 || scores[i] > 100) {
+            printf("Invalid score entered\n");
+            return 1;
+        }
     }
     printf("Enter scores for Semester II:\n");
     for (i = 8; i < 16; i++) {
         printf("%s: ", codes_sem2[i-8]);
         scanf("%d", &scores[i]);
-    }
-    
-    /* Validate input */
-    for (i = 0; i < 16; i++) {
+        /* Validate input immediately */
         if (scores[i] < 0 || scores[i] > 100) {
             printf("Invalid score entered\n");
             return 1;
         }
     }
     
-    /* Determine grades and grade points */
+    /* Determine grades and grade points (using switch) */
     for (i = 0; i < 16; i++) {
         tens = scores[i] / 10;
         switch (tens) {
