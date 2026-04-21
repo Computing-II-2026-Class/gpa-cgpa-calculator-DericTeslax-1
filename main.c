@@ -6,7 +6,7 @@ Registration Number: 25/U/BIE/01399/PE
 #include <stdio.h>
 
 int main(void) {
-    /* Declare variables here */
+   /* Declare variables here */
     int scores[16];
     int credits_sem1[8] = {4, 3, 3, 3, 3, 3, 2, 3};
     int credits_sem2[8] = {4, 3, 3, 3, 3, 3, 3, 3};
@@ -20,7 +20,7 @@ int main(void) {
     int total_credits_sem1 = 0, total_credits_sem2 = 0;
     int total_weighted_sem1 = 0, total_weighted_sem2 = 0;
     float gpa_sem1, gpa_sem2, cgpa;
-    int i;
+    int i, tens;
     
     /* Read 16 scores */
     printf("Enter scores for Semester I:\n");
@@ -44,21 +44,30 @@ int main(void) {
     
     /* Determine grades and grade points */
     for (i = 0; i < 16; i++) {
-        if (scores[i] >= 80) {
-            grade_points[i] = 5;
-            grades[i] = 'A';
-        } else if (scores[i] >= 70) {
-            grade_points[i] = 4;
-            grades[i] = 'B';
-        } else if (scores[i] >= 60) {
-            grade_points[i] = 3;
-            grades[i] = 'C';
-        } else if (scores[i] >= 50) {
-            grade_points[i] = 2;
-            grades[i] = 'D';
-        } else {
-            grade_points[i] = 0;
-            grades[i] = 'F';
+        tens = scores[i] / 10;
+        switch (tens) {
+            case 10:
+            case 9:
+            case 8:
+                grade_points[i] = 5;
+                grades[i] = 'A';
+                break;
+            case 7:
+                grade_points[i] = 4;
+                grades[i] = 'B';
+                break;
+            case 6:
+                grade_points[i] = 3;
+                grades[i] = 'C';
+                break;
+            case 5:
+                grade_points[i] = 2;
+                grades[i] = 'D';
+                break;
+            default:
+                grade_points[i] = 0;
+                grades[i] = 'F';
+                break;
         }
     }
     
